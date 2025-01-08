@@ -1,28 +1,33 @@
 ﻿using System;
 using System.IO;
+using System.CommandLine;
 
 namespace wc;
 
 class Program
 {
-    static void Main(string[] args)
+    static async Task<int> Main(string[] args)
     {
-        //File.Open(".\test.txt");
-        //need to get argument from command line
-        // need to recognize -c as count the bytes
-        // need to open the file
-        // need to count the bytes in a fule
-        // need to return the byte count to the console
-        if (args.Length > 0)
-        {
-            if(args[0] == "-c"){
-                Console.WriteLine("In -c");
-            }
-        }
-        else
-        {
-            Console.WriteLine("No arguments");
-        }
+        var fileOption = new Option<FileInfo?>(
+            name: "-c",
+            description: "Read the byte count of the file.");
+
+        var rootCommand = new RootCommand("Sample app for System.CommandLine");
+        rootCommand.AddOption(fileOption);
+
+        rootCommand.SetHandler((file) => 
+            { 
+                ReadFile(file!); 
+            },
+            fileOption);
+
+        return await rootCommand.InvokeAsync(args);
+    }
+
+    static void ReadFile(FileInfo file)
+    {
+        // File.ReadLines(file.FullName).ToList()
+        //     .ForEach(line => Console.WriteLine(line));
+        Console.WriteLine($"{file.Length} {file}");
     }
 }
-
