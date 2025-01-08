@@ -3,7 +3,7 @@ using System.IO;
 using System.CommandLine;
 
 namespace wc;
-//testing ssh key
+
 class Program
 {
     static async Task<int> Main(string[] args)
