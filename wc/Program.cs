@@ -31,6 +31,8 @@ class Program
                 else if (byteArgumentValue == "-l")
                 {
                     CountLines(file);
+                } else if(byteArgumentValue == '-w'){
+                    CountWords(file);
                 }
             },
             functionArgument, fileArgument);
@@ -47,5 +49,11 @@ class Program
     {
         int lineCount = File.ReadLines(file.FullName).ToList().Count;
         Console.WriteLine($"{lineCount} {file}");
+    }
+
+    static void CountWords(FileInfo file){
+        // implement word count function
+        int count = 0;
+        File.ReadLines(file.FullName);
     }
 }
