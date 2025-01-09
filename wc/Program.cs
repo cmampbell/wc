@@ -8,26 +8,44 @@ class Program
 {
     static async Task<int> Main(string[] args)
     {
-        var fileOption = new Option<FileInfo?>(
-            name: "-c",
-            description: "Read the byte count of the file.");
+        var functionArgument = new Argument<string>(
+            name: "function",
+            description: "arguement that determines output"
+        );
 
-        var rootCommand = new RootCommand("Sample app for System.CommandLine");
-        rootCommand.AddOption(fileOption);
+        var fileArgument = new Argument<FileInfo>(
+            name: "file",
+            description: "the file to read"
+        );
 
-        rootCommand.SetHandler((file) => 
-            { 
-                ReadFile(file!); 
+        var rootCommand = new RootCommand("Word Count"){
+            functionArgument,
+            fileArgument
+        };
+        rootCommand.SetHandler((byteArgumentValue, file) =>
+            {
+                if (byteArgumentValue == "-c")
+                {
+                    CountBytes(file);
+                }
+                else if (byteArgumentValue == "-l")
+                {
+                    CountLines(file);
+                }
             },
-            fileOption);
+            functionArgument, fileArgument);
 
         return await rootCommand.InvokeAsync(args);
     }
 
-    static void ReadFile(FileInfo file)
+    static void CountBytes(FileInfo file)
     {
-        // File.ReadLines(file.FullName).ToList()
-        //     .ForEach(line => Console.WriteLine(line));
         Console.WriteLine($"{file.Length} {file}");
+    }
+
+    static void CountLines(FileInfo file)
+    {
+        int lineCount = File.ReadLines(file.FullName).ToList().Count;
+        Console.WriteLine($"{lineCount} {file}");
     }
 }
