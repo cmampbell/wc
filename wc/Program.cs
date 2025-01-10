@@ -31,7 +31,9 @@ class Program
                 else if (byteArgumentValue == "-l")
                 {
                     CountLines(file);
-                } else if(byteArgumentValue == "-w"){
+                }
+                else if (byteArgumentValue == "-w")
+                {
                     CountWords(file);
                 }
             },
@@ -51,22 +53,52 @@ class Program
         Console.WriteLine($"{lineCount} {file}");
     }
 
-    static void CountWords(FileInfo file){
+    static void CountWords(FileInfo file)
+    {
         // implement word count function
-        int count = 0;
-        bool inWord = false;
-        string text = File.ReadAllText(file.FullName);//.Length
-        int length = text.Length;
-        //word is a standalone sequence of characters
-        for(int i = 0; i < length; i++ ){
-            char c = text[i];
-            if(char.IsLetterOrDigit(c)){
-                inWord = true;
-            } else {
-                inWord = false;
-                count++;
+
+        string[] text = File.ReadLines(file.FullName).ToArray();//.Length
+        for (int i = 0; i < 50; i++)
+        {
+            int count = 0;
+            bool inWord = false;
+            string line = text[i];
+            for (int j = 0; j < line.Length; j++)
+            {
+                char c = line[j];
+
+                if ((!char.IsLetter(c)) && inWord)
+                {
+                    inWord = false;
+                }
+                else if (char.IsLetter(c) && !inWord)
+                {
+                    inWord = true;
+                    count++;
+                }
             }
+            Console.WriteLine(line);
+            Console.WriteLine(count);
         }
-        Console.WriteLine($"{count} {file}");
+
+        // string text = File.ReadAllText(file.FullName);
+        // int count = 0;
+        // bool inWord = false;
+        // for (int i = 0; i < text.Length; i++)
+        // {
+        //     char c = text[i];
+
+        //     if ((!char.IsLetter(c)) && inWord)
+        //     {
+        //         inWord = false;
+        //     }
+        //     else if (char.IsLetter(c) && !inWord)
+        //     {
+        //         inWord = true;
+        //         count++;
+        //     }
+        // }
+
+        //Console.WriteLine($"{count} {file}");
     }
 }
