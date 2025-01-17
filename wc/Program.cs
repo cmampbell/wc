@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.CommandLine;
+using System.Runtime.CompilerServices;
 
 namespace wc;
 
@@ -35,6 +36,8 @@ class Program
                 else if (byteArgumentValue == "-w")
                 {
                     CountWords(file);
+                } else if (byteArgumentValue == "-m"){
+                    CountChars(file);
                 }
             },
             functionArgument, fileArgument);
@@ -62,7 +65,7 @@ class Program
         {
             char c = text[i];
 
-             if (char.IsWhiteSpace(c))// && inWord)
+            if (char.IsWhiteSpace(c))// && inWord)
                 {
                     inWord = false;
                 }
@@ -72,7 +75,10 @@ class Program
                     count++;
                 }
         }
-
         Console.WriteLine($"{count} {file}");
+    }
+
+    static void CountChars(FileInfo file){
+        Console.WriteLine($"Implement this");
     }
 }
